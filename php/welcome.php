@@ -14,41 +14,39 @@
 <body>
 <div class="alert alert-primary" role="alert">
 <?php
-/*if(isset($_POST["username"]))
-{
-    echo $_POST["username"];
-}*/
-class User{
-    private $username;
-    private $password;
-    function showInfo(){
-        echo "Username= " .$this->username."<br>";
-        echo "Password= " .$this->password."<br>";
+    session_start();
+    class User{
+        private $username;
+        private $password;
+        function showInfo(){
+            echo "Username= " .$this->username."<br>";
+            echo "Password= " .$this->password."<br>";
+        }
+        function __construct($username,$password){
+            $this->username=$username;
+            $this->password=$password;
+        }
+        function set_username($username){
+                $this->username=$username; 
+        }
+        function get_name(){
+            return $this->username;
+        }
+        function set_password($password){
+            $this->password=$password; 
+        }
+        function get_pwd(){
+            return $this->password;
+        }       
     }
-    function __construct($username,$password){
-        $this->username=$username;
-        $this->password=$password;
-    }
-    function set_username($username){
-            $this->username=$username; 
-    }
-    function get_name(){
-        return $this->username;
-    }
-    function set_password($password){
-        $this->password=$password; 
-    }
-    function get_pwd(){
-        return $this->password;
-    }       
-}
- $myuser=new User($_POST["username"],$_POST["password"]);
-  $myuser->get_name()."<br>";
-  $myuser->get_pwd();
-   $myuser->showInfo();
+     $myuser=new User($_SESSION['username'],$_SESSION['password']);
+      $myuser->get_name()."<br>";
+      $myuser->get_pwd();
+       $myuser->showInfo();
+    
 
+    ?>
 
-?>
 </div>
 </body>
 </html>

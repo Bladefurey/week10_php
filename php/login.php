@@ -1,3 +1,30 @@
+<?php
+  include_once('dbuser.php');
+  if(isset($_POST['login'])){
+    $sql="select * from user";
+    $result=mysqli_query($connection,$sql);
+    $row=mysqli_num_rows($result);
+    if($row>0){
+      while($row=mysqli_fetch_assoc($result)){
+        session_start();
+        if(isset($_POST['username']) && isset($_POST['password'])){
+          if($_POST['username']==$row['username'] && $_POST['password']==$row['password']){
+            $_SESSION['username']=$_POST['username'];
+            $_SESSION['password']=$_POST['password'];
+            header("location:welcome.php");
+          }
+          else{
+            $_SESSION['error']="invalid";
+          }
+        }
+      }
+    }
+    else{
+      echo "There is no Data.";
+    }
+  }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -15,7 +42,7 @@
   <body>
 	  <div id="login-page">
 	  	<div class="container">
-		      <form class="form-login" action="welcome.php" method="post">
+		      <form class="form-login" method="post">
 		        <h2 class="form-login-heading">Host Myanmar(Mandalay)</h2>
                   
 		        <div class="login-wrap">
@@ -25,7 +52,13 @@
 		            <input id="pwd" type="password" name="password" class="form-control" placeholder="Password" ><br >
                 <span id="pwerror" style="color:red"></span>
 		            <input  id="login" name="login" class="btn btn-theme btn-block" type="submit">
-                    
+                <?php
+                if(isset($_SESSION['error']))
+                {
+                  if($_SESSION['error']=="invalid")
+                  echo "<span style='color:red'>Invalid username and password</span>";
+                }
+                ?> 
                 </div>
                 
 		      </form>	  	
